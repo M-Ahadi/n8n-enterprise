@@ -1,0 +1,10 @@
+services:
+  n8n-enterprise-patcher:
+    image: mojtabaahadi/n8n_patcher
+    environment:
+      - RELEASE=${RELEASE:-1.117.2}
+      - IMAGE_TAG=${IMAGE_TAG:-enterprise}
+      - IMAGE_BASE_NAME=${IMAGE_BASE_NAME:-mojtabaahadi/n8n}
+      - NODE_OPTIONS=--max-old-space-size=7168
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
