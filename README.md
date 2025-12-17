@@ -52,7 +52,7 @@ The lastest patch is available in [docker hub](https://hub.docker.com/r/mojtabaa
 
 3. **Build the project**
    ```bash
-   docker compose -f docker-compose_build.yml up --build
+   docker compose -f docker-compose_build.yml up
    ```
 
 4. **Configure .env file**
