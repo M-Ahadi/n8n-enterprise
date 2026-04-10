@@ -4,7 +4,7 @@ from urllib.request import urlopen
 
 
 def read_tags_file():
-    with open("n8n_release_tags.txt", "r", encoding="UTF8") as f:
+    with open("tags.txt", "r", encoding="UTF8") as f:
         images = f.readlines()
 
     tags = []
