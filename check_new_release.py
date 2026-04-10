@@ -17,8 +17,8 @@ def read_tags_file():
 def get_n8n_release_version():
     with urlopen("https://api.github.com/repos/n8n-io/n8n/releases/latest") as url:
         data = json.loads(url.read().decode())
-        latest = data['tag_name']
-        latest = latest.split("@")[1]
+        latest = data['target_commitish']
+        latest = latest.split("/")[1]
 
     return latest
 
@@ -40,7 +40,7 @@ def get_docker_latest_version(namespace="mojtabaahadi", image="n8n", page_size=1
 
 
 if __name__ == "__main__":
-    docker_tags = read_tags_file()
     n8n_latest_release = get_n8n_release_version()
+    docker_tags = read_tags_file()
     if n8n_latest_release not in docker_tags:
         print(n8n_latest_release)
