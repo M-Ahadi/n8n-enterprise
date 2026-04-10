@@ -1,4 +1,4 @@
-FROM node:22-bookworm
+FROM node:24.14.1-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \

@@ -1,6 +1,6 @@
 services:
   n8n-enterprise-patcher:
-    image: mojtabaahadi/n8n_patcher
+    image: ghcr.io/m-ahadi/n8n-enterprise:n8n_patcher
     environment:
       - RELEASE=${RELEASE:-1.117.2}
       - IMAGE_TAG=${IMAGE_TAG:-enterprise}
