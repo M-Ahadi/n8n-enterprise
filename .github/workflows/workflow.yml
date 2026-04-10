@@ -32,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ toLower(github.repository) }}
+          images: ghcr.io/m-ahadi/n8n-enterprise
 
       - name: Save tags
         run: echo "${{ steps.meta.outputs.tags }}" > tags.txt
@@ -68,9 +68,9 @@ jobs:
         if: steps.get_release.outputs.release_found == 'true'
         run: |
           set -e
-          docker push "ghcr.io/${{ toLower(github.repository) }}:$RELEASE"
-          docker tag "ghcr.io/${{ toLower(github.repository) }}:$RELEASE" "ghcr.io/${{ toLower(github.repository) }}:latest"
-          docker push "ghcr.io/${{ toLower(github.repository) }}:latest"
+          docker push "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE"
+          docker tag "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE" "ghcr.io/m-ahadi/n8n-enterprise:latest"
+          docker push "ghcr.io/m-ahadi/n8n-enterprise:latest"
           
 
       - name: Send Telegram notification
