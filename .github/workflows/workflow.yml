@@ -47,9 +47,6 @@ jobs:
           
           echo "$TAGS" > tags.txt
 
-      - name: Save tags
-        run: echo "${{ steps.meta.outputs.tags }}" > tags.txt
-
       - name: Get value from API
         id: get_release
         run: |
