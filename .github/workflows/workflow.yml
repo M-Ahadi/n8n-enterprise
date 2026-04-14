@@ -45,14 +45,10 @@ jobs:
           
           TAGS=$(echo "$VERSIONS_JSON" | jq -r '.[].metadata.container.tags[] | select(. != null)')
           
-          echo "Found tags:"
-          echo "$TAGS"
+          echo "$TAGS" > tags.txt
 
       - name: Save tags
         run: echo "${{ steps.meta.outputs.tags }}" > tags.txt
-
-      - name: found images
-        run: cat tags.txt
 
       - name: Get value from API
         id: get_release
