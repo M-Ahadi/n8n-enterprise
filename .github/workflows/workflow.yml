@@ -6,13 +6,6 @@ on:
   workflow_dispatch:      # allows manual trigger
 
 jobs:
-  read-latest-tags:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-
   check-release:
     runs-on: ubuntu-latest
     outputs:
@@ -43,6 +36,9 @@ jobs:
       - name: Save tags
         run: echo "${{ steps.meta.outputs.tags }}" > tags.txt
 
+      - name: found images
+        run: cat tags.txt
+
       - name: Get value from API
         id: get_release
         run: |
@@ -56,6 +52,11 @@ jobs:
             echo "Found release: $RELEASE"
             echo "release_found=true" >> $GITHUB_OUTPUT
           fi
+
+
+      - name: found tags
+        run: cat tags_found.txt
+
 
   build-and-push:
     needs: check-release

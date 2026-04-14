@@ -11,6 +11,9 @@ def read_tags_file():
     for image in images:
         tag = image.split(":")[-1]
         tags.append(tag)
+
+    with open("tags_found.txt", "w", encoding="UTF8") as f:
+        f.writelines(tags)
     return tags
 
 
