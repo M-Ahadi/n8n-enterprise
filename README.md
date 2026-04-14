@@ -37,7 +37,7 @@ This version bypasses all license checks and enables the complete suite of n8n e
 
 
 ### Quick Start
-The lastest patch is available in [docker hub](https://hub.docker.com/r/mojtabaahadi/n8n) or can be created as below:
+The lastest patch is available in [GitHub docker registry](https://ghcr.io/M-Ahadi/n8n-enterprise) or can be created as below:
 
 1. **Clone the repository**
    ```bash

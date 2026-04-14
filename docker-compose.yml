@@ -37,7 +37,7 @@ services:
       
 
   n8n:
-    image: mojtabaahadi/n8n:enterprise
+    image: ghcr.io/m-ahadi/n8n-enterprise:latest
     restart: always
     ports:
       - "127.0.0.1:5678:5678"

@@ -1,4 +1,4 @@
-FROM node:22-bookworm
+FROM node:24.14.1-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
@@ -40,6 +40,8 @@ WORKDIR /workspaces
 # If you don't have patch.sh in the build context, this file copy can be removed.
 COPY patch.sh /workspaces/patch.sh
 RUN chmod +x /workspaces/patch.sh
+RUN sed -i 's/\r$//' /workspaces/patch.sh
+
 
 # Default command: keep an interactive shell (devcontainer will run postCreateCommand)
 CMD ["/bin/bash", "-c", "/workspaces/patch.sh"]
