@@ -1,11 +1,12 @@
 import json
-from urllib.parse import urlencode
 from urllib.request import urlopen
 
 
 def read_tags_file():
     with open("tags.txt", "r", encoding="UTF8") as f:
         tags = f.readlines()
+    tags = [tag.strip() for tag in tags]
+    print("loaded tags:", tags)
     return tags
 
 
@@ -14,24 +15,9 @@ def get_n8n_release_version():
         data = json.loads(url.read().decode())
         latest = data['target_commitish']
         latest = latest.split("/")[1]
-
+    print("latest tag", latest)
     return latest
 
-
-def get_docker_latest_version(namespace="mojtabaahadi", image="n8n", page_size=100):
-    base_url = f"https://hub.docker.com/v2/repositories/{namespace}/{image}/tags"
-    params = {"page_size": page_size}
-    url = base_url + "?" + urlencode(params)
-
-    tags = []
-
-    while url:
-        with urlopen(url) as response:
-            data = json.load(response)
-
-        tags.extend([tag["name"] for tag in data.get("results", [])])
-        url = data.get("next")
-    return tags
 
 
 if __name__ == "__main__":
