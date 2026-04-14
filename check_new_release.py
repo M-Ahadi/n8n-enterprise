@@ -1,4 +1,5 @@
 import json
+import sys
 from urllib.request import urlopen
 
 
@@ -6,7 +7,7 @@ def read_tags_file():
     with open("tags.txt", "r", encoding="UTF8") as f:
         tags = f.readlines()
     tags = [tag.strip() for tag in tags]
-    print("loaded tags:", tags)
+    print("loaded tags:", tags, file=sys.stderr)
     return tags
 
 
@@ -15,7 +16,7 @@ def get_n8n_release_version():
         data = json.loads(url.read().decode())
         latest = data['target_commitish']
         latest = latest.split("/")[1]
-    print("latest tag", latest)
+    print("latest tag", latest, file=sys.stderr)
     return latest
 
 
