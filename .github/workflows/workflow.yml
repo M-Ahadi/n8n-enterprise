@@ -33,6 +33,21 @@ jobs:
         with:
           images: ghcr.io/m-ahadi/n8n-enterprise
 
+      - name: Fetch and List Tags
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_NAME: "n8n-enterprise"
+        run: |
+          VERSIONS_JSON=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /user/packages/container/$PACKAGE_NAME/versions)
+          
+          TAGS=$(echo "$VERSIONS_JSON" | jq -r '.[].metadata.container.tags[] | select(. != null)')
+          
+          echo "Found tags:"
+          echo "$TAGS"
+
       - name: Save tags
         run: echo "${{ steps.meta.outputs.tags }}" > tags.txt
 
