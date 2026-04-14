@@ -65,10 +65,6 @@ jobs:
           fi
 
 
-      - name: found tags
-        run: cat tags_found.txt
-
-
   build-and-push:
     needs: check-release
     if: needs.check-release.outputs.release_found == 'true'
