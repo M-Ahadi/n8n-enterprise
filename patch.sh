@@ -19,7 +19,7 @@ sed -i 's|"settings\.usageAndPlan\.description": "You’re on the {name} {type}"
 sed -i  '/<template #name>{{ badgedPlanName.name ?? usageStore.planName }}<\/template>/a\
 <template #link><a href="https://github.com/M-Ahadi/n8n-enterprise" target="_blank" rel="noopener noreferrer">Mojtaba Ahadi<\/a><\/template>' /n8n/packages/frontend/editor-ui/src/features/settings/usage/views/SettingsUsageAndPlan.vue
 
-
+sed -i $'s|showNonProdBanner[[:space:]]*:[[:space:]]*this\\.license\\.isLicensed(LICENSE_FEATURES\\.SHOW_NON_PROD_BANNER)[[:space:]]*,|showNonProdBanner: false, // BYPASSED,|' /n8n/packages/cli/src/services/frontend.service.ts
 
 python3 - <<'PY'
 import re
