@@ -1,4 +1,4 @@
-FROM node:24.14.1-bookworm
+FROM node:26.7.0-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0 \
@@ -15,10 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
   && rm -rf /var/lib/apt/lists/*
 
-# Enable Corepack and install pnpm
-ENV COREPACK_VERSION=10.22.0
-RUN corepack enable \
- && corepack prepare pnpm@${COREPACK_VERSION} --activate
+# Install pnpm
+ENV PNPM_VERSION=11.22.0
+RUN npm install -g pnpm@${PNPM_VERSION}
 
 # Install Docker CLI + Compose plugin
 RUN mkdir -p /etc/apt/keyrings \
@@ -44,4 +43,4 @@ RUN sed -i 's/\r$//' /workspaces/patch.sh
 
 
 # Default command: keep an interactive shell (devcontainer will run postCreateCommand)
-CMD ["/bin/bash", "-c", "/workspaces/patch.sh"]
+CMD ["/bin/bash", "/workspaces/patch.sh"]
