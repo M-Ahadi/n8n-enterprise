@@ -86,9 +86,9 @@ jobs:
       - name: Push Docker image(s) to Docker Hub
         run: |
           set -e
-          docker push "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE"
-          docker tag "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE" "ghcr.io/m-ahadi/n8n-enterprise:latest"
-          docker push "ghcr.io/m-ahadi/n8n-enterprise:latest"
+          docker push "ghcr.io/${{ github.repository_owner }}/n8n-enterprise:$RELEASE"
+          docker tag "ghcr.io/${{ github.repository_owner }}/n8n-enterprise:$RELEASE" "ghcr.io/${{ github.repository_owner }}/n8n-enterprise:latest"
+          docker push "ghcr.io/${{ github.repository_owner }}/n8n-enterprise:latest"
 
   notify:
     needs: [check-release, build-and-push]
