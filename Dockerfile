@@ -43,4 +43,4 @@ RUN sed -i 's/\r$//' /workspaces/patch.sh
 
 
 # Default command: keep an interactive shell (devcontainer will run postCreateCommand)
-CMD ["/bin/bash", "-c", "/workspaces/patch.sh"]
+CMD ["/bin/bash", "/workspaces/patch.sh"]

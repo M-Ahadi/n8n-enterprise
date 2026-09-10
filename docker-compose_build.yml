@@ -1,6 +1,7 @@
 services:
   n8n-enterprise-patcher:
     image: mojtabaahadi/n8n_patcher
+    command: /bin/bash /workspaces/patch.sh
     environment:
       - RELEASE=${RELEASE:-1.117.2}
       - IMAGE_TAG=${IMAGE_TAG:-latest}
