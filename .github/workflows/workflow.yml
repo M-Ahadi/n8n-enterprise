@@ -87,8 +87,13 @@ jobs:
         run: |
           set -e
           docker push "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE"
+          docker push "ghcr.io/m-ahadi/runners:$RELEASE"
+          
           docker tag "ghcr.io/m-ahadi/n8n-enterprise:$RELEASE" "ghcr.io/m-ahadi/n8n-enterprise:latest"
+          docker tag "ghcr.io/m-ahadi/runners:$RELEASE" "ghcr.io/m-ahadi/runners:latest"
+          
           docker push "ghcr.io/m-ahadi/n8n-enterprise:latest"
+          docker push "ghcr.io/m-ahadi/runners:latest"
 
   notify:
     needs: [check-release, build-and-push]

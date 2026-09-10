@@ -5,7 +5,8 @@ services:
       - RELEASE=${RELEASE:-1.117.2}
       - IMAGE_TAG=${IMAGE_TAG:-latest}
       - IMAGE_BASE_NAME=${IMAGE_BASE_NAME:-ghcr.io/m-ahadi/n8n-enterprise}
-      - RUNNERS_IMAGE_BASE_NAME=ghcr.io/n8n-io/runners
+      - RUNNERS_IMAGE_BASE_NAME=${RUNNERS_IMAGE_BASE_NAME:-ghcr.io/m-ahadi/runners}
       - NODE_OPTIONS=--max-old-space-size=7168
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./patch.sh:/workspaces/patch.sh
