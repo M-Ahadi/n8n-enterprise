@@ -3,10 +3,17 @@ name: Daily Docker Task
 on:
   schedule:
     - cron: "0 2 * * *"  # runs daily at 02:00 UTC
-  workflow_dispatch:      # allows manual trigger
+  workflow_dispatch:
+    inputs:
+      pnpm_version:
+        description: 'PNPM Version'
+        required: false
+        default: '11.25.0'
+        type: string
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  PNPM_VERSION: ${{ inputs.pnpm_version || vars.PNPM_VERSION || '11.25.0' }}
 
 jobs:
   check-release:
@@ -75,10 +82,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build patcher image
+        run: |
+          set -e
+          docker build --build-arg PNPM_VERSION=$PNPM_VERSION -t n8n_patcher .
+
       - name: Build Docker image
         run: |
           set -e
-          RELEASE=$RELEASE IMAGE_TAG=$RELEASE docker compose -f docker-compose_build.yml up
+          RELEASE=$RELEASE IMAGE_TAG=$RELEASE docker compose -f docker-compose_build.yml up --abort-on-container-exit --exit-code-from n8n-enterprise-patcher
+          docker compose -f docker-compose_build.yml down -v
         env:
           # --- ADDED: Pass Node memory limits to the build process ---
           NODE_OPTIONS: "--max-old-space-size=6144"
