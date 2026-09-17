@@ -1,4 +1,4 @@
-set -eu;
+set -euo pipefail
 
 rm -rf /n8n
 
@@ -63,7 +63,8 @@ else:
         f.write(new_s)
 PY
 cd /n8n
-yes "" | pnpm install
+pnpm install --frozen-lockfile
+
 pnpm run build:docker
 
 rm -rf /n8n

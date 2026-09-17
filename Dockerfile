@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install pnpm
-ENV PNPM_VERSION=11.22.0
+ARG PNPM_VERSION=11.25.0
+ENV PNPM_VERSION=${PNPM_VERSION}
 RUN npm install -g pnpm@${PNPM_VERSION}
 
 # Install Docker CLI + Compose plugin

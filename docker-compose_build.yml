@@ -1,6 +1,7 @@
 services:
   n8n-enterprise-patcher:
-    image: mojtabaahadi/n8n_patcher
+    image: n8n_patcher
+    build: .
     command: /bin/bash /workspaces/patch.sh
     environment:
       - RELEASE=${RELEASE:-1.117.2}
@@ -10,4 +11,3 @@ services:
       - NODE_OPTIONS=--max-old-space-size=7168
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./patch.sh:/workspaces/patch.sh
