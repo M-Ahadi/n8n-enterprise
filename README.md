@@ -2,6 +2,9 @@
 
 A modified version of [n8n](https://github.com/n8n-io/n8n) workflow automation platform with **all enterprise features unlocked** and **no license restrictions**.
 
+## Telegram Channel
+In order to get notified about the latest build please join our telegram channel: [n8n_release](https://t.me/n8n_release)
+
 ## ⚡ What's Unlocked
 
 This version bypasses all license checks and enables the complete suite of n8n enterprise features:
