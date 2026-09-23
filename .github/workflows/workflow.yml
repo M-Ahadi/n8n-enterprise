@@ -3,17 +3,10 @@ name: Daily Docker Task
 on:
   schedule:
     - cron: "0 2 * * *"  # runs daily at 02:00 UTC
-  workflow_dispatch:
-    inputs:
-      pnpm_version:
-        description: 'PNPM Version'
-        required: false
-        default: '11.25.0'
-        type: string
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
-  PNPM_VERSION: ${{ inputs.pnpm_version || vars.PNPM_VERSION || '11.25.0' }}
+  PNPM_VERSION: ${{ vars.PNPM_VERSION  }}
 
 jobs:
   check-release:
@@ -81,6 +74,26 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract PNPM_VERSION
+        id: extract_pnpm
+        run: |
+          set -e
+          DOCKERFILE_URL="https://raw.githubusercontent.com/n8n-io/n8n/refs/heads/master/packages/%40n8n/benchmark/Dockerfile"
+          PNPM_VER=$(curl -sSfL "$DOCKERFILE_URL" 2>/dev/null | sed -n -E 's/^ARG[[:space:]]+PNPM_VERSION=([^[:space:]]+).*/\1/p' | head -n 1 | tr -d '[:space:]"' || true)
+          if [ -n "$PNPM_VER" ]; then
+            echo "Extracted PNPM_VERSION from upstream: $PNPM_VER"
+            echo "PNPM_VERSION=$PNPM_VER" >> "$GITHUB_ENV"
+            echo "pnpm_version=$PNPM_VER" >> "$GITHUB_OUTPUT"
+          else
+            echo "Notice: Could not extract PNPM_VERSION from $DOCKERFILE_URL. Falling back to GitHub env."
+            if [ -z "$PNPM_VERSION" ]; then
+              echo "Error: PNPM_VERSION is not set in GitHub env (vars.PNPM_VERSION is empty)." >&2
+              exit 1
+            fi
+            echo "Using PNPM_VERSION from GitHub env: $PNPM_VERSION"
+            echo "pnpm_version=$PNPM_VERSION" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build patcher image
         run: |
