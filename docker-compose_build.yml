@@ -1,7 +1,10 @@
 services:
   n8n-enterprise-patcher:
     image: n8n_patcher
-    build: .
+    build:
+      context: .
+      args:
+        PNPM_VERSION: ${PNPM_VERSION:-11.25.0}
     command: /bin/bash /workspaces/patch.sh
     environment:
       - RELEASE=${RELEASE:-1.117.2}

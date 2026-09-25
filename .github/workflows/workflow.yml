@@ -84,7 +84,6 @@ jobs:
           if [ -n "$PNPM_VER" ]; then
             echo "Extracted PNPM_VERSION from upstream: $PNPM_VER"
             echo "PNPM_VERSION=$PNPM_VER" >> "$GITHUB_ENV"
-            echo "pnpm_version=$PNPM_VER" >> "$GITHUB_OUTPUT"
           else
             echo "Notice: Could not extract PNPM_VERSION from $DOCKERFILE_URL. Falling back to GitHub env."
             if [ -z "$PNPM_VERSION" ]; then
@@ -92,18 +91,15 @@ jobs:
               exit 1
             fi
             echo "Using PNPM_VERSION from GitHub env: $PNPM_VERSION"
-            echo "pnpm_version=$PNPM_VERSION" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Build patcher image
-        run: |
-          set -e
-          docker build --build-arg PNPM_VERSION=$PNPM_VERSION -t n8n_patcher .
 
       - name: Build Docker image
         run: |
           set -e
-          RELEASE=$RELEASE IMAGE_TAG=$RELEASE docker compose -f docker-compose_build.yml up --abort-on-container-exit --exit-code-from n8n-enterprise-patcher
+          echo "RELEASE=$RELEASE" > .env
+          echo "IMAGE_TAG=$RELEASE" >> .env
+          echo "PNPM_VERSION=$PNPM_VERSION" >> .env
+          docker compose -f docker-compose_build.yml up --build --abort-on-container-exit --exit-code-from n8n-enterprise-patcher
           docker compose -f docker-compose_build.yml down -v
         env:
           # --- ADDED: Pass Node memory limits to the build process ---
