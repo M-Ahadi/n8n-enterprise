@@ -3,6 +3,13 @@ name: Daily Docker Task
 on:
   schedule:
     - cron: "0 2 * * *"  # runs daily at 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      manual_release:
+        description: "Release version to build (e.g. 1.117.2). Leave empty to auto-check latest release"
+        required: false
+        default: ""
+
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
@@ -41,7 +48,10 @@ jobs:
         id: get_release
         run: |
           set -e
-          RELEASE=$(python check_new_release.py)
+          RELEASE="${{ inputs.manual_release }}"
+          if [ -z "$RELEASE" ]; then
+            RELEASE=$(python check_new_release.py)
+          fi
           if [ -z "$RELEASE" ]; then
             echo "No new release found, stopping workflow."
             echo "release_found=false" >> $GITHUB_OUTPUT
