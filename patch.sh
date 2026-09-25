@@ -14,10 +14,10 @@ sed -i 's/!options?.feature/true/' /n8n/packages/frontend/editor-ui/src/app/util
 sed -i 's/license.getUsersLimit() !== UNLIMITED_USERS_QUOTA/false/' /n8n/packages/cli/src/public-api/v1/shared/middlewares/global.middleware.ts
 sed -i 's/Container.get(License).isLicensed(feature)/true/' /n8n/packages/cli/src/public-api/v1/shared/middlewares/global.middleware.ts
 
-sed -i 's|"settings\.usageAndPlan\.description": "You’re on the {name} {type}"|"settings.usageAndPlan.description": "You’re on the {name} {type} (provided by {link})"|' /n8n/packages/frontend/@n8n/i18n/src/locales/en.json
+sed -i 's|"settings\.usageAndPlan\.description": "You’re on the {name} {type}"|"settings.usageAndPlan.description": "You’re on the {name} {type} (provided by {link}). Join {telegram} for the latest release."|' /n8n/packages/frontend/@n8n/i18n/src/locales/en.json
 
 sed -i  '/<template #name>{{ badgedPlanName.name ?? usageStore.planName }}<\/template>/a\
-<template #link><a href="https://github.com/M-Ahadi/n8n-enterprise" target="_blank" rel="noopener noreferrer">Mojtaba Ahadi<\/a><\/template>' /n8n/packages/frontend/editor-ui/src/features/settings/usage/views/SettingsUsageAndPlan.vue
+<template #link><a href="https://github.com/M-Ahadi/n8n-enterprise" target="_blank" rel="noopener noreferrer">Mojtaba Ahadi<\/a><\/template>\n<template #telegram><a href="https://t.me/n8n_release" target="_blank" rel="noopener noreferrer">n8n Telegram Channel<\/a><\/template>' /n8n/packages/frontend/editor-ui/src/features/settings/usage/views/SettingsUsageAndPlan.vue
 
 sed -i 's/showNonProdBanner: .*/showNonProdBanner: false,\/\/Bypass/' /n8n/packages/cli/src/services/frontend.service.ts
 
@@ -61,6 +61,39 @@ if n == 0:
 else:
     with open(fname, "w", encoding="utf-8") as f:
         f.write(new_s)
+
+# Add Telegram link to MainSidebar.vue
+sidebar_file = "/n8n/packages/frontend/editor-ui/src/app/components/MainSidebar.vue"
+with open(sidebar_file, "r", encoding="utf-8") as f:
+    sidebar_content = f.read()
+
+target = "const mainMenuItems = computed<IMenuItem[]>(() => ["
+telegram_item = """const mainMenuItems = computed<IMenuItem[]>(() => [
+	{
+		id: 'telegram',
+		icon: 'telegram',
+		label: 'Telegram Channel',
+		position: 'bottom',
+		link: {
+			href: 'https://t.me/n8n_release',
+			target: '_blank',
+		},
+	},{
+		id: 'github',
+		icon: 'github',
+		label: 'Github',
+		position: 'bottom',
+		link: {
+			href: 'https://github.com/M-Ahadi/n8n-enterprise',
+			target: '_blank',
+		},
+	},"""
+
+if target in sidebar_content:
+    with open(sidebar_file, "w", encoding="utf-8") as f:
+        f.write(sidebar_content.replace(target, telegram_item, 1))
+else:
+    print("Warning: mainMenuItems not found in MainSidebar.vue")
 PY
 cd /n8n
 pnpm install --frozen-lockfile

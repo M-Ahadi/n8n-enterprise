@@ -1,0 +1,14 @@
+# SearXNG configuration for n8n AI Assistant
+# https://github.com/searxng/searxng
+
+use_default_settings: true
+
+server:
+  # Internal service for n8n: disable rate limiter to prevent blocking AI tool calls
+  limiter: false
+
+search:
+  # n8n AI assistant requires the JSON format API
+  formats:
+    - html
+    - json
