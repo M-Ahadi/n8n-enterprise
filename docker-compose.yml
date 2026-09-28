@@ -1,6 +1,8 @@
 services:
   n8n:
     image: ghcr.io/m-ahadi/n8n-enterprise:latest
+    restart: always
+    container_name: n8n
     environment:
       - N8N_EDITOR_BASE_URL=${SERVICE_URL_N8N:-http://127.0.0.1:5678/}
       - WEBHOOK_URL=${SERVICE_URL_N8N:-http://127.0.0.1:5678/}
@@ -58,6 +60,8 @@ services:
 
   n8n-worker:
     image: ghcr.io/m-ahadi/n8n-enterprise:latest
+    container_name: n8n-worker
+    restart: always
     command: worker
     environment:
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-UTC}
@@ -108,7 +112,9 @@ services:
         condition: service_healthy
 
   postgresql:
-    image: 'postgres:16-alpine'
+    image: postgres:16-alpine
+    container_name: postgresql
+    restart: always
     volumes:
       - 'postgresql-data:/var/lib/postgresql/data'
     environment:
@@ -124,7 +130,9 @@ services:
       retries: 10
 
   redis:
-    image: 'redis:6-alpine'
+    image: redis:6-alpine
+    container_name: redis
+    restart: always
     volumes:
       - 'redis-data:/data'
     healthcheck:
@@ -138,6 +146,8 @@ services:
 
   task-runners:
     image: ghcr.io/m-ahadi/runners:latest
+    container_name: task-runners
+    restart: always
     environment:
       - N8N_RUNNERS_TASK_BROKER_URI=${N8N_RUNNERS_TASK_BROKER_URI:-http://n8n-worker:5679}
       - N8N_RUNNERS_AUTH_TOKEN=${SERVICE_PASSWORD_N8N:-n8n}

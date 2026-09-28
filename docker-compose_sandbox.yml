@@ -13,11 +13,11 @@ volumes:
 
 services:
   registry:
-    image: registry:2
+    image: registry
     container_name: n8n-sandbox-registry
+    restart: always
     ports:
       - "5050:5000"
-    restart: always
     environment:
       REGISTRY_LOG_LEVEL: warn
     healthcheck:
@@ -60,7 +60,6 @@ services:
       - SANDBOX_API_RUNNER_REGISTRATION_TOKEN=${SANDBOX_API_RUNNER_REGISTRATION_TOKEN:-registration-token}
       - SANDBOX_API_KEYS=${SANDBOX_API_KEYS:-custom-secret-key}
       - SANDBOX_API_RUNNER_API_KEY=${SANDBOX_API_RUNNER_API_KEY:-custom-secret-key}
-
     volumes:
       - sandbox-tls:/tls:ro
     healthcheck:
@@ -101,7 +100,6 @@ services:
     volumes:
       - sandbox-tls:/tls:ro
     # Never expose this container's ports publicly — it runs privileged Docker-in-Docker.
-
 
   searxng:
     image: ghcr.io/searxng/searxng:latest
