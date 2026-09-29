@@ -40,6 +40,9 @@ services:
       - N8N_PROXY_HOPS=${N8N_PROXY_HOPS:-1}
       - N8N_SKIP_AUTH_ON_OAUTH_CALLBACK=${N8N_SKIP_AUTH_ON_OAUTH_CALLBACK:-false}
       - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - N8N_INSTANCE_AI_MODEL_API_KEY=${N8N_INSTANCE_AI_MODEL_API_KEY:-"no-api-key-is-needed-for-local-llm"}
+      - N8N_INSTANCE_AI_MODEL_URL=${N8N_INSTANCE_AI_MODEL_URL:-"http://ollama:11434/v1"}
+      - N8N_INSTANCE_AI_MODEL=${N8N_INSTANCE_AI_MODEL:-"gemma4:12b"}
       - NODE_OPTIONS=--dns-result-order=ipv4first --tls-max-v1.2
     volumes:
       - 'n8n-data:/home/node/.n8n'
