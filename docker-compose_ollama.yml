@@ -16,19 +16,6 @@ services:
               count: all
               capabilities: [gpu]
 
-  ollama-webui:
-    image: ghcr.io/ollama-webui/ollama-webui:main
-    container_name: ollama-webui
-    restart: always
-    ports: ["3000:8080"]
-    volumes:
-      - ollama-webui:/app/backend/data
-    depends_on:
-      - ollama
-    environment:
-      - 'OLLAMA_API_BASE_URL=http://ollama:11434/api'
-
 
 volumes:
   ollama:
-  ollama-webui:
