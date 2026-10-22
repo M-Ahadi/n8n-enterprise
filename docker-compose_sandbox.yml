@@ -14,7 +14,7 @@ volumes:
 services:
   registry:
     image: registry
-    container_name: n8n-sandbox-registry
+    container_name: registry
     restart: always
     ports:
       - "5050:5000"
@@ -27,7 +27,7 @@ services:
       retries: 10
 
   sandbox-certs:
-    image: ghcr.io/n8n-io/n8n-sandbox-service-api:${N8N_SANDBOX_VERSION}
+    image: ghcr.io/n8n-io/n8n-sandbox-service-api:${N8N_SANDBOX_VERSION:-latest}
     container_name: sandbox-certs
     user: '0:0'
     entrypoint: [ 'sh', '-c' ]
@@ -42,7 +42,7 @@ services:
       - sandbox-tls:/tls
 
   sandbox-api:
-    image: ghcr.io/n8n-io/n8n-sandbox-service-api:${N8N_SANDBOX_VERSION}
+    image: ghcr.io/n8n-io/n8n-sandbox-service-api:${N8N_SANDBOX_VERSION:-latest}
     container_name: sandbox-api
     restart: always
     depends_on:
@@ -72,7 +72,7 @@ services:
     # n8n reaches this container by service name, over the default Compose network.
 
   sandbox-runner-1:
-    image: ghcr.io/n8n-io/n8n-sandbox-service-runner-dind:${N8N_SANDBOX_VERSION}
+    image: ghcr.io/n8n-io/n8n-sandbox-service-runner-dind:${N8N_SANDBOX_VERSION:-latest}
     container_name: sandbox-runner-1
     restart: always
     privileged: true

@@ -1,0 +1,9 @@
+services:
+  watchtower:
+    image: nickfedor/watchtower:latest
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 43200  n8n n8n-worker ollama searxng sandbox-runner-1 sandbox-certs registry
+
