@@ -6,13 +6,9 @@ git clone --branch n8n@$RELEASE --filter=tree:0 --single-branch https://github.c
 
 sed -i '/isLicensed(feature: BooleanLicenseFeature)/ {n; s/^[[:space:]]*return.*/\t\treturn true;/}' /n8n/packages/cli/src/license.ts
 sed -i '/getPlanName(): string / {n; s/^[[:space:]]*return.*/\t\treturn "Enterprise";/}' /n8n/packages/cli/src/license.ts
-sed -i '/isLicensed(_feature: BooleanLicenseFeature)/ {n; s/^[[:space:]]*\w*/\t\treturn true;/}' /n8n/packages/@n8n/backend-common/src/license-state.ts
-
-sed -i $'/isLicensed(feature: BooleanLicenseFeature)[[:space:]]*{/a\\\n    return true;' /n8n/packages/@n8n/backend-common/src/license-state.ts
+sed -i '/^[[:space:]]*isLicensed(.*).*{/a\\\t\treturn true;' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/this\.getValue.*/UNLIMITED_LICENSE_QUOTA;/' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/!options?.feature/true/' /n8n/packages/frontend/editor-ui/src/app/utils/rbac/checks/isEnterpriseFeatureEnabled.ts
-sed -i 's/license.getUsersLimit() !== UNLIMITED_USERS_QUOTA/false/' /n8n/packages/cli/src/public-api/v1/shared/middlewares/global.middleware.ts
-sed -i 's/Container.get(License).isLicensed(feature)/true/' /n8n/packages/cli/src/public-api/v1/shared/middlewares/global.middleware.ts
 
 sed -i 's|"settings\.usageAndPlan\.description": "You’re on the {name} {type}"|"settings.usageAndPlan.description": "You’re on the {name} {type} (provided by {link}). Join {telegram} for the latest release."|' /n8n/packages/frontend/@n8n/i18n/src/locales/en.json
 
