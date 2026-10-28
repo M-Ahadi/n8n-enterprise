@@ -89,7 +89,7 @@ jobs:
         id: extract_pnpm
         run: |
           set -e
-          DOCKERFILE_URL="https://raw.githubusercontent.com/n8n-io/n8n/refs/heads/master/packages/%40n8n/benchmark/Dockerfile"
+          DOCKERFILE_URL="https://raw.githubusercontent.com/n8n-io/n8n/refs/heads/master/docker/images/runners/Dockerfile"
           PNPM_VER=$(curl -sSfL "$DOCKERFILE_URL" 2>/dev/null | sed -n -E 's/^ARG[[:space:]]+PNPM_VERSION=([^[:space:]]+).*/\1/p' | head -n 1 | tr -d '[:space:]"' || true)
           if [ -n "$PNPM_VER" ]; then
             echo "Extracted PNPM_VERSION from upstream: $PNPM_VER"
