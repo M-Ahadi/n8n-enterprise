@@ -6,7 +6,6 @@ git clone --branch n8n@$RELEASE --filter=tree:0 --single-branch https://github.c
 
 sed -i '/isLicensed(feature: BooleanLicenseFeature)/ {n; s/^[[:space:]]*return.*/\t\treturn true;/}' /n8n/packages/cli/src/license.ts
 sed -i '/getPlanName(): string / {n; s/^[[:space:]]*return.*/\t\treturn "Enterprise";/}' /n8n/packages/cli/src/license.ts
-sed -i 's/^[[:space:]]*isLicensed(.*).*{/&\n\t\treturn true;/' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/this\.getValue.*/UNLIMITED_LICENSE_QUOTA;/' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/!options?.feature/true/' /n8n/packages/frontend/editor-ui/src/app/utils/rbac/checks/isEnterpriseFeatureEnabled.ts
 
@@ -57,6 +56,31 @@ if n == 0:
 else:
     with open(fname, "w", encoding="utf-8") as f:
         f.write(new_s)
+
+# Patch isLicensed in license-state.ts
+ls_file = "/n8n/packages/@n8n/backend-common/src/license-state.ts"
+try:
+    with open(ls_file, "r", encoding="utf-8") as f:
+        ls_content = f.read()
+
+    m = re.search(r'^[ \t]*isLicensed\s*\([^)]*\)[^{]*\{', ls_content, re.M)
+    if m:
+        start = m.end()
+        depth = 1
+        i = start
+        while i < len(ls_content) and depth > 0:
+            if ls_content[i] == '{':
+                depth += 1
+            elif ls_content[i] == '}':
+                depth -= 1
+            i += 1
+        ls_content = ls_content[:start] + "\n\t\treturn true;\n\t}" + ls_content[i:]
+        with open(ls_file, "w", encoding="utf-8") as f:
+            f.write(ls_content)
+    else:
+        print("Warning: isLicensed not found in license-state.ts")
+except FileNotFoundError:
+    print(f"Notice: {ls_file} not found")
 
 # Add Telegram link to MainSidebar.vue
 sidebar_file = "/n8n/packages/frontend/editor-ui/src/app/components/MainSidebar.vue"
