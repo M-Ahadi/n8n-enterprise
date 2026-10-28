@@ -6,7 +6,7 @@ git clone --branch n8n@$RELEASE --filter=tree:0 --single-branch https://github.c
 
 sed -i '/isLicensed(feature: BooleanLicenseFeature)/ {n; s/^[[:space:]]*return.*/\t\treturn true;/}' /n8n/packages/cli/src/license.ts
 sed -i '/getPlanName(): string / {n; s/^[[:space:]]*return.*/\t\treturn "Enterprise";/}' /n8n/packages/cli/src/license.ts
-sed -i '/^[[:space:]]*isLicensed(.*).*{/a\\\t\treturn true;' /n8n/packages/@n8n/backend-common/src/license-state.ts
+sed -i 's/^[[:space:]]*isLicensed(.*).*{/&\n\t\treturn true;/' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/this\.getValue.*/UNLIMITED_LICENSE_QUOTA;/' /n8n/packages/@n8n/backend-common/src/license-state.ts
 sed -i 's/!options?.feature/true/' /n8n/packages/frontend/editor-ui/src/app/utils/rbac/checks/isEnterpriseFeatureEnabled.ts
 
