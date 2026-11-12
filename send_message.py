@@ -38,8 +38,14 @@ if __name__ == "__main__":
 *n8n release tag `{n8n_latest_release}` pushed to the repo.*
 
 New images can be pulled from:
+
 `ghcr.io/m-ahadi/n8n-enterprise:{n8n_latest_release}`
+
+`ghcr.io/m-ahadi/n8n-enterprise:latest`
+
 `ghcr.io/m-ahadi/runners:{n8n_latest_release}`
+
+`ghcr.io/m-ahadi/runners:latest`
 
 [Github Repo](https://github.com/M-Ahadi/n8n-enterprise)
 """.strip()
